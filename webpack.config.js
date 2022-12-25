@@ -4,6 +4,9 @@ const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 // clean out build dir in-between builds
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -11,12 +14,13 @@ module.exports = [
   {
     entry: {
       'main': [
-        './js/src/main.js',
-        './css/src/main.scss'
+        './src/index.js',
+        './src/style/index.scss'
       ]
     },
     output: {
-      filename: './js/build/[name].min.[fullhash].js',
+      // filename: './js/build/[name].min.[fullhash].js',
+      filename: './dist/js/[name].min.[fullhash].js',
       path: path.resolve(__dirname)
     },
     module: {
@@ -37,15 +41,25 @@ module.exports = [
           test: /\.(woff|woff2|eot|ttf|otf)$/,
           type: 'asset/resource',
           generator: {
-            filename: './css/build/font/[name][ext]',
+            filename: './dist/css/font/[name][ext]',
+          }
+        },
+        {
+          test: /\.(html)$/,
+          include: path.resolve(__dirname) + '/src/views/',
+          use: {
+            loader: 'html-loader',
+            options: {
+              interpolate: true
+            }
           }
         },
         // loader for images and icons (only required if css references image files)
         {
-          test: /\.(png|jpg|gif)$/,
+          test: /\.(png|jpg|gif|webp)$/,
           type: 'asset/resource',
           generator: {
-            filename: './css/build/img/[name][ext]',
+            filename: './dist/img/[name][ext]',
           }
         },
       ]
@@ -54,13 +68,21 @@ module.exports = [
       // clear out build directories on each build
       new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns: [
-          './js/build/*',
-          './css/build/*'
+          './dist/js/*',
+          './dist/css/*'
         ]
       }),
       // css extraction into dedicated file
       new MiniCssExtractPlugin({
-        filename: './css/build/main.min.[fullhash].css'
+        filename: './dist/css/main.min.[fullhash].css'
+      }),
+
+      new HtmlWebpackPlugin({
+        title: 'webpack Boilerplate',
+        // favicon: paths.src + '/images/favicon.png',
+        template: path.resolve(__dirname) + '/src/template.html', // template file
+        filename: 'index.html', // output file
+        // inject: body
       }),
     ],
     optimization: {
