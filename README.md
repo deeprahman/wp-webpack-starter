@@ -30,6 +30,4 @@ It may be helpful during development to create a symlink in the WordPress theme'
 ln -s /code-directory/wp-barebone-theme-webpack5-sass /var/www/html/wp-content/themes/wp-barebone-theme-webpack5-sass
 ```
 
-## Blog Post
 
-Check out a blog post I created that describes configuring webpack to work with WordPress in more detail: [https://taylor.callsen.me/using-webpack-5-and-sass-with-wordpress/](https://taylor.callsen.me/using-webpack-5-and-sass-with-wordpress/)
