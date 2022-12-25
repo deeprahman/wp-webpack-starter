@@ -1,4 +1,4 @@
-## Webpack 5 Barebones WordPress Theme
+## Create Wordpress theme using Webpack 5
 
 Provides a sample barebones WordPress theme that features a webpack 5 build for CSS/SASS and JavaScript. The webpack configuration is defined in the [webpack.config.js](./webpack.config.js), and the compiled assets are included in the WordPress theme via code in the [functions.php](./functions.php).
 
