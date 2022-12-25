@@ -22,12 +22,6 @@ Various build commands are available that execute the webpack 5 builds:
 
 This theme can be downloaded and deployed into a WordPress instance's themes directory (i.e. `/wp-content/themes`). Once the theme is deployed, run the build commands (`npm install` and `npm run dist`) to install and build the JavaScript and CSS.
 
-### Symlinking to Theme
 
-It may be helpful during development to create a symlink in the WordPress theme's directory that points to a local copy of this repository. An symlink may look like:
-
-```
-ln -s /code-directory/wp-barebone-theme-webpack5-sass /var/www/html/wp-content/themes/wp-barebone-theme-webpack5-sass
-```
 
 
