@@ -14,14 +14,17 @@ module.exports = [
   {
     entry: {
       'main': [
-        './src/index.js',
-        './src/style/index.scss'
+        path.join(__dirname, 'src', 'index.js'),
+        path.join(__dirname, 'src', 'styles', 'index.scss'),
       ]
     },
     output: {
       // filename: './js/build/[name].min.[fullhash].js',
-      filename: './dist/js/[name].min.[fullhash].js',
-      path: path.resolve(__dirname)
+      path: path.join(__dirname, 'dist'),
+      filename: 'js/' + '[name].min.js',
+    },
+    externals: {
+      jquery: 'jQuery'
     },
     module: {
       rules: [
@@ -41,25 +44,17 @@ module.exports = [
           test: /\.(woff|woff2|eot|ttf|otf)$/,
           type: 'asset/resource',
           generator: {
-            filename: './dist/css/font/[name][ext]',
+            // filename: './dist/css/font/[name][ext]',
+            filename: 'css/font/[name][ext]',
           }
         },
-        {
-          test: /\.(html)$/,
-          include: path.resolve(__dirname) + '/src/views/',
-          use: {
-            loader: 'html-loader',
-            options: {
-              interpolate: true
-            }
-          }
-        },
+
         // loader for images and icons (only required if css references image files)
         {
           test: /\.(png|jpg|gif|webp)$/,
           type: 'asset/resource',
           generator: {
-            filename: './dist/img/[name][ext]',
+            filename: 'img/[name][ext]',
           }
         },
       ]
@@ -68,22 +63,22 @@ module.exports = [
       // clear out build directories on each build
       new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns: [
-          './dist/js/*',
-          './dist/css/*'
+          path.join(__dirname, 'dist', 'js'),
+          path.join(__dirname, 'dist', 'css'),
         ]
       }),
       // css extraction into dedicated file
       new MiniCssExtractPlugin({
-        filename: './dist/css/main.min.[fullhash].css'
+        filename: 'css/main.min.css'
       }),
 
       new HtmlWebpackPlugin({
         title: 'webpack Boilerplate',
         // favicon: paths.src + '/images/favicon.png',
-        template: path.resolve(__dirname) + '/src/template.html', // template file
-        filename: 'index.html', // output file
-        // inject: body
-      }),
+        template: path.join(__dirname, 'src', 'template.html'), // template file
+        filename: './../index.html', // output file
+        inject: "body"
+      })
     ],
     optimization: {
       // minification - only performed when mode = production
@@ -92,7 +87,8 @@ module.exports = [
         `...`,
         // css minification
         new CssMinimizerPlugin(),
-      ]
+      ],
+      moduleIds: 'deterministic',
     },
   }
 ];
